@@ -1,0 +1,18 @@
+{
+    admin 0.0.0.0:2019
+}
+
+:80 {
+    # API Backend
+    handle_path /api/* {
+        reverse_proxy api:3000
+    }
+
+    # UI Frontend (for production, but for now we can just leave it)
+    handle_path /ui/* {
+        reverse_proxy ui:5173
+    }
+
+    # Catch-all for dynamic deployments
+    # These will be added via the Admin API
+}

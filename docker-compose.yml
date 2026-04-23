@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  proxy:
+    image: caddy:latest
+    ports:
+      - "80:80"
+      - "2019:2019"
+    volumes:
+      - ./proxy/Caddyfile:/etc/caddy/Caddyfile
+    networks:
+      - deploy_net
+    restart: unless-stopped
+
+  api:
+    build: 
+      context: ./api
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3000
+      - CADDY_ADMIN_URL=http://proxy:2019
+      - BUILDKIT_HOST=docker-container://buildkit
+      - DATABASE_URL=postgresql://mavrick:mavrick@db:5432/mavrick?schema=public
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./api/workspaces:/app/workspaces
+    networks:
+      - deploy_net
+    depends_on:
+      - proxy
+      - buildkit
+      - db
+
+  buildkit:
+    container_name: buildkit
+    image: moby/buildkit:latest
+    privileged: true
+    networks:
+      - deploy_net
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=mavrick
+      - POSTGRES_PASSWORD=mavrick
+      - POSTGRES_DB=mavrick
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - deploy_net
+    restart: unless-stopped
+
+  ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    networks:
+      - deploy_net
+    depends_on:
+      - api
+
+networks:
+  deploy_net:
+    name: deploy_net
+    driver: bridge
