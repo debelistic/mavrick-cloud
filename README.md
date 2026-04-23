@@ -76,7 +76,7 @@ graph TD
     ```
 
 3. **Access the Dashboard**:
-    Open `http://localhost` in your browser.
+    Open `http://localhost:5173` in your browser.
 
 4. **Deploy an app**:
     Use the dashboard to enter a Git URL or upload a ZIP file. Your app will be accessible at `http://{deployment-id}.localhost`.
