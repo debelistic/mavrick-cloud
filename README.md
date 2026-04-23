@@ -156,6 +156,9 @@ The core API services are: `WorkspaceService`, `RailpackService`, `DockerService
 - the background process registers the container with Caddy.
 - the background process updates the deployment status to `RUNNING`.
 
+#### Time It took
+it 6-8 hours
+
 ## 📜 License
 
 MIT
