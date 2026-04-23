@@ -77,6 +77,9 @@ graph TD
 
 3. **Access the Dashboard**:
     Open `http://localhost:5173` in your browser.
+    test repos:
+    - <https://github.com/debelistic/payment-microservice>
+    - <https://github.com/debelistic/nodeAPI>
 
 4. **Deploy an app**:
     Use the dashboard to enter a Git URL or upload a ZIP file. Your app will be accessible at `http://{deployment-id}.localhost`.
@@ -144,7 +147,7 @@ The core API services are: `WorkspaceService`, `RailpackService`, `DockerService
 
 #### How Does the UI Work?
 
-- user enters a public url to a github repo OR uploads a .zip file.
+- user enters a public url to a github repo OR uploads a .zip file.(<https://github.com/debelistic/payment-microservice>, <https://github.com/debelistic/nodeAPI>)
 - the UI creates a new database entry for the deployment with status `PENDING`.
 - the UI starts a background process to process the deployment.
 - the background process creates a new workspace for the deployment and clones the repo OR extracts the zip file.
